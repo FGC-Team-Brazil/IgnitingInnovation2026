@@ -1,0 +1,46 @@
+//
+// build.gradle in TeamCode
+//
+
+plugins {
+    id 'com.diffplug.spotless' version '8.5.1'
+}
+
+apply from: '../build.common.gradle'
+apply from: '../build.dependencies.gradle'
+
+android {
+    namespace = 'org.firstinspires.ftc.teamcode'
+    buildToolsVersion '35.0.0'
+
+    packagingOptions {
+        jniLibs {
+            pickFirsts += ['**/*.so']
+        }
+        jniLibs.useLegacyPackaging true
+    }
+}
+
+dependencies {
+    implementation project(':FtcRobotController')
+    implementation 'com.github.ori-coval.Koala-Log:KoalaLogger:1.5.5'
+    annotationProcessor 'com.github.ori-coval.Koala-Log:KoalaLoggingProcessor:1.5.5'
+}
+
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
+spotless {
+    java {
+        target 'src/**/*.java'
+        googleJavaFormat('1.19.2')
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    dependsOn 'spotlessApply'
+}
