@@ -17,12 +17,9 @@ public class Constants {
     public static final boolean MOTOR_LEFT_INVERTED = true;
   }
 
-  /** Configuration values for the example subsystem. */
-  public static class SubsystemExample {
-    public static final String MOTOR_LEFT = "subsystemExample_motorLeft";
-    public static final String MOTOR_RIGHT = "subsystemExample_motorRight";
-    public static final String LIMIT_LEFT = "subsystemExample_limitLeft";
-    public static final String LIMIT_RIGHT = "subsystemExample_limitRight";
+  /** Configuration values for the intake subsystem. */
+  public static class IntakeSubsystem {
+    public static final String INTAKE_MOTOR = "intake_motor";
 
     /** PID tuning constants. */
     public static class PID {

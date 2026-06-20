@@ -16,12 +16,12 @@ public class RobotContainer extends RobotContainerInternal {
   private final SmartGamepad driver;
   private final SmartGamepad operator;
 
-  private final SubsystemExample subsystemExample;
   private final DrivetrainBuilder drivetrain;
+  private final IntakeSubsystem intake;
 
   public RobotContainer(Gamepad driver, Gamepad operator) {
     super(
-        DrivetrainBuilder.getInstance(), SubsystemExample.getInstance()
+        DrivetrainBuilder.getInstance(), IntakeSubsystem.getInstance()
         // Add more subsystems here.
         );
 
@@ -34,7 +34,7 @@ public class RobotContainer extends RobotContainerInternal {
             Constants.DrivetrainBuilderConstants.MOTOR_LEFT,
             Constants.DrivetrainBuilderConstants.MOTOR_RIGHT_INVERTED,
             Constants.DrivetrainBuilderConstants.MOTOR_LEFT_INVERTED);
-    subsystemExample = SubsystemExample.getInstance();
+    intake = IntakeSubsystem.getInstance();
     // You need to add the subsystems here too.
   }
 
@@ -49,16 +49,7 @@ public class RobotContainer extends RobotContainerInternal {
         .onFalse(drivetrain::stop);
 
     // Operator controller
-    operator.y().onTrue(() -> subsystemExample.setTargetAngle(90));
+    operator.b().onTrue(() -> intake.runMotorPower(0.8)).onFalse(intake::stopMotor);
 
-    operator.a().onTrue(() -> subsystemExample.setTargetAngle(0));
-
-    new Trigger(subsystemExample::isLimitLeft).onTrue(subsystemExample::resetEncoders);
-
-    new Trigger(subsystemExample::isLimitRight).onTrue(subsystemExample::resetEncoders);
-
-    operator.start().and(operator.back()).onTrue(subsystemExample::resetEncoders);
-
-    operator.y().negate().and(operator.a().negate()).onTrue(() -> subsystemExample.setPower(0));
   }
 }
