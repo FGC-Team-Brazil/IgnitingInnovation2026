@@ -49,7 +49,7 @@ public class RobotContainer extends RobotContainerInternal {
         .onFalse(drivetrain::stop);
 
     // Operator controller
-    operator.b().onTrue(() -> intake.runMotorPower(0.8)).onFalse(intake::stopMotor);
+    operator.b().onTrue(() -> intake.runMotorPower(0.8)).onFalse(intake::stopMotor); // Example button biding for intake 
 
   }
 }

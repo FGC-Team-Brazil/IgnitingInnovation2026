@@ -27,7 +27,7 @@ public class IntakeSubsystem implements Subsystem {
   // ── Lifecycle ──────────────────────────────────────────────────────────────
   @Override
   public void initialize(HardwareMap hardwareMap) {
-        motor = hardwareMap.get(motor.class, Constants.IntakeSubsystem.MOTOR_NAME);
+        motor = hardwareMap.get(motor.class, Constants.IntakeSubsystem.INTAKE_MOTOR);
         motor.setDirection(motor.Direction.FORWARD);
         motor.setMode(motor.RunMode.STOP_AND_RESET_ENCODER);  
   }
