@@ -32,4 +32,7 @@ public class Constants {
       public static final double kF = 0.1;
     }
   }
+  public static class Climber {
+    public static final String MOTOR_NAME = "climber_motor";
+  }
 }
