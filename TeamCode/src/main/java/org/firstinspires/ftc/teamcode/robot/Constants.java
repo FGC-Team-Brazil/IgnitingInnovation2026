@@ -17,22 +17,6 @@ public class Constants {
     public static final boolean MOTOR_LEFT_INVERTED = true;
   }
 
-  /** Configuration values for the example subsystem. */
-  public static class SubsystemExample {
-    public static final String MOTOR_LEFT = "subsystemExample_motorLeft";
-    public static final String MOTOR_RIGHT = "subsystemExample_motorRight";
-    public static final String LIMIT_LEFT = "subsystemExample_limitLeft";
-    public static final String LIMIT_RIGHT = "subsystemExample_limitRight";
-
-    /** PID tuning constants. */
-    public static class PID {
-      public static final double kP = 1.8;
-      public static final double kI = 0.0;
-      public static final double kD = 0.031;
-      public static final double kF = 0.1;
-    }
-  }
-
   public static class Climber {
     public static final String MOTOR_NAME = "climber_motor";
   }
