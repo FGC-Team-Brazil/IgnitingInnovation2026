@@ -1,12 +1,9 @@
 package org.firstinspires.ftc.teamcode.robot;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
-import org.firstinspires.ftc.teamcode.core.lib.builders.DrivetrainBuilder;
 import org.firstinspires.ftc.teamcode.core.lib.gamepad.SmartGamepad;
-import org.firstinspires.ftc.teamcode.core.lib.gamepad.Trigger;
 import org.firstinspires.ftc.teamcode.core.lib.internal.RobotContainerInternal;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Climber;
-import org.firstinspires.ftc.teamcode.robot.subsystems.SubsystemExample;
 
 /**
  * RobotContainer class handle instance configurations. All the subsystems listed in constructor
@@ -17,13 +14,13 @@ public class RobotContainer extends RobotContainerInternal {
   private final SmartGamepad driver;
   private final SmartGamepad operator;
 
-  private final SubsystemExample subsystemExample;
   private final DrivetrainBuilder drivetrain;
   private final Climber climber;
 
   public RobotContainer(Gamepad driver, Gamepad operator) {
     super(
-        DrivetrainBuilder.getInstance(), SubsystemExample.getInstance(), Climber.getInstance()
+        DrivetrainBuilder.getInstance(),
+        Climber.getInstance()
         // Add more subsystems here.
         );
 
@@ -31,12 +28,11 @@ public class RobotContainer extends RobotContainerInternal {
     this.operator = new SmartGamepad(operator);
 
     drivetrain =
-        DrivetrainBuilder.build(
-            Constants.DrivetrainBuilderConstants.MOTOR_RIGHT,
-            Constants.DrivetrainBuilderConstants.MOTOR_LEFT,
-            Constants.DrivetrainBuilderConstants.MOTOR_RIGHT_INVERTED,
-            Constants.DrivetrainBuilderConstants.MOTOR_LEFT_INVERTED);
-    subsystemExample = SubsystemExample.getInstance();
+    DrivetrainBuilder.build(
+        Constants.DrivetrainBuilderConstants.MOTOR_RIGHT,
+        Constants.DrivetrainBuilderConstants.MOTOR_LEFT,
+        Constants.DrivetrainBuilderConstants.MOTOR_RIGHT_INVERTED,
+        Constants.DrivetrainBuilderConstants.MOTOR_LEFT_INVERTED);
     climber = Climber.getInstance();
     // You need to add the subsystems here too.
   }
@@ -46,24 +42,13 @@ public class RobotContainer extends RobotContainerInternal {
 
     // Driver controller
     driver
-        .leftY()
-        .or(driver.rightX())
-        .whileTrue(() -> drivetrain.arcadeDrive(-driver.getLeftY(), driver.getRightX()))
-        .onFalse(drivetrain::stop);
+    .leftY()
+    .or(driver.rightX())
+    .whileTrue(() -> drivetrain.arcadeDrive(-driver.getLeftY(), driver.getRightX()))
+    .onFalse(drivetrain::stop);
 
     // Operator controller
     operator.x().onTrue(() -> climber.runMotorPower(0.8)).onFalse(climber::stopMotor);
 
-    operator.y().onTrue(() -> subsystemExample.setTargetAngle(90));
-
-    operator.a().onTrue(() -> subsystemExample.setTargetAngle(0));
-
-    new Trigger(subsystemExample::isLimitLeft).onTrue(subsystemExample::resetEncoders);
-
-    new Trigger(subsystemExample::isLimitRight).onTrue(subsystemExample::resetEncoders);
-
-    operator.start().and(operator.back()).onTrue(subsystemExample::resetEncoders);
-
-    operator.y().negate().and(operator.a().negate()).onTrue(() -> subsystemExample.setPower(0));
   }
 }

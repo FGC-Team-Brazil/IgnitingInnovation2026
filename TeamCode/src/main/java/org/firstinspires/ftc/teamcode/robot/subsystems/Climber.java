@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.robot.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.core.lib.interfaces.Subsystem;
 import org.firstinspires.ftc.teamcode.robot.Constants;
@@ -25,7 +24,7 @@ public class Climber implements Subsystem {
   public void initialize(HardwareMap hardwareMap) {
     this.hardwareMap = hardwareMap;
     motor = hardwareMap.get(DcMotor.class, Constants.Climber.MOTOR_NAME);
-    motor.setDirection(DcMotorSimple.Direction.FORWARD);
+    motor.setDirection(DcMotor.Direction.FORWARD);
     motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
   }
