@@ -49,16 +49,8 @@ public class RobotContainer extends RobotContainerInternal {
         .onFalse(drivetrain::stop);
 
     // Operator controller
-    operator.y().onTrue(() -> subsystemExample.setTargetAngle(90));
-
-    operator.a().onTrue(() -> subsystemExample.setTargetAngle(0));
-
-    new Trigger(subsystemExample::isLimitLeft).onTrue(subsystemExample::resetEncoders);
-
-    new Trigger(subsystemExample::isLimitRight).onTrue(subsystemExample::resetEncoders);
-
-    operator.start().and(operator.back()).onTrue(subsystemExample::resetEncoders);
-
-    operator.y().negate().and(operator.a().negate()).onTrue(() -> subsystemExample.setPower(0));
+    operator.leftTrigger()
+        .whileTrue(() -> subsystemExample.setManualPower(-operator.getLeftTrigger()))
+        .onFalse(() -> subsystemExample.setManualPower(0.0));
   }
 }
