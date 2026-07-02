@@ -3,9 +3,8 @@ package org.firstinspires.ftc.teamcode.robot;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.teamcode.core.lib.builders.DrivetrainBuilder;
 import org.firstinspires.ftc.teamcode.core.lib.gamepad.SmartGamepad;
-import org.firstinspires.ftc.teamcode.core.lib.gamepad.Trigger;
 import org.firstinspires.ftc.teamcode.core.lib.internal.RobotContainerInternal;
-import org.firstinspires.ftc.teamcode.robot.subsystems.SubsystemExample;
+import org.firstinspires.ftc.teamcode.robot.subsystems.ConveyorSubsystem;
 
 /**
  * RobotContainer class handle instance configurations. All the subsystems listed in constructor
@@ -15,13 +14,16 @@ public class RobotContainer extends RobotContainerInternal {
 
   private final SmartGamepad driver;
   private final SmartGamepad operator;
+  private final ConveyorSubsystem conveyor;
 
-  private final SubsystemExample subsystemExample;
   private final DrivetrainBuilder drivetrain;
 
   public RobotContainer(Gamepad driver, Gamepad operator) {
     super(
-        DrivetrainBuilder.getInstance(), SubsystemExample.getInstance()
+        DrivetrainBuilder.getInstance(), ConveyorSubsystem.getInstance()
+
+
+
         // Add more subsystems here.
         );
 
@@ -34,7 +36,7 @@ public class RobotContainer extends RobotContainerInternal {
             Constants.DrivetrainBuilderConstants.MOTOR_LEFT,
             Constants.DrivetrainBuilderConstants.MOTOR_RIGHT_INVERTED,
             Constants.DrivetrainBuilderConstants.MOTOR_LEFT_INVERTED);
-    subsystemExample = SubsystemExample.getInstance();
+    conveyor = ConveyorSubsystem.getInstance();
     // You need to add the subsystems here too.
   }
 
@@ -48,17 +50,6 @@ public class RobotContainer extends RobotContainerInternal {
         .whileTrue(() -> drivetrain.arcadeDrive(-driver.getLeftY(), driver.getRightX()))
         .onFalse(drivetrain::stop);
 
-    // Operator controller
-    operator.y().onTrue(() -> subsystemExample.setTargetAngle(90));
-
-    operator.a().onTrue(() -> subsystemExample.setTargetAngle(0));
-
-    new Trigger(subsystemExample::isLimitLeft).onTrue(subsystemExample::resetEncoders);
-
-    new Trigger(subsystemExample::isLimitRight).onTrue(subsystemExample::resetEncoders);
-
-    operator.start().and(operator.back()).onTrue(subsystemExample::resetEncoders);
-
-    operator.y().negate().and(operator.a().negate()).onTrue(() -> subsystemExample.setPower(0));
+    operator.x().whileTrue(() -> conveyor.setPower(1)).onFalse(conveyor::stopConveyor);
   }
 }
