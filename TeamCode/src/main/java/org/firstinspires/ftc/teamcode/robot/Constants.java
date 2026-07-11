@@ -17,19 +17,6 @@ public class Constants {
     public static final boolean MOTOR_LEFT_INVERTED = true;
   }
 
-  /** Configuration values for the intake subsystem. */
-  public static class IntakeSubsystem {
-    public static final String INTAKE_MOTOR = "intake_motor";
-
-    /** PID tuning constants. */
-    public static class PID {
-      public static final double kP = 1.8;
-      public static final double kI = 0.0;
-      public static final double kD = 0.031;
-      public static final double kF = 0.1;
-    }
-  }
-
   public static class Intake {
     public static final String INTAKE_SPEED = "intake_motor";
   }
