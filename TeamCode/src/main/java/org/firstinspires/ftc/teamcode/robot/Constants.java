@@ -29,4 +29,8 @@ public class Constants {
       public static final double kF = 0.1;
     }
   }
+
+  public static class Intake {
+    public static final String INTAKE_SPEED = "intake_motor";
+  }
 }
