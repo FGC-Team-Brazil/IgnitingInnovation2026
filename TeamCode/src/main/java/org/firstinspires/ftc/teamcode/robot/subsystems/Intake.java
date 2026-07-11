@@ -5,9 +5,9 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @AutoLog
-public class IntakeSubsystem implements Subsystem {
+public class Intake implements Subsystem {
 
-private static IntakeSubsystemAutoLogged instance;
+private static IntakeAutoLogged instance;
 
 private HardwareMap hardwareMap;
 private Motor INTAKE_SPEED;
