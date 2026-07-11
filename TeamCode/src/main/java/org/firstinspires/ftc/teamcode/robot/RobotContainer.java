@@ -19,11 +19,11 @@ public class RobotContainer extends RobotContainerInternal {
   private final SmartGamepad operator;
 
   private final DrivetrainBuilder drivetrain;
-  private final IntakeSubsystem intake;
+  private final Intake intake;
 
   public RobotContainer(Gamepad driver, Gamepad operator) {
     super(
-        DrivetrainBuilder.getInstance(), IntakeSubsystem.getInstance()
+        DrivetrainBuilder.getInstance(), Intake.getInstance()
         // Add more subsystems here.
         );
 
@@ -36,7 +36,7 @@ public class RobotContainer extends RobotContainerInternal {
             Constants.DrivetrainBuilderConstants.MOTOR_LEFT,
             Constants.DrivetrainBuilderConstants.MOTOR_RIGHT_INVERTED,
             Constants.DrivetrainBuilderConstants.MOTOR_LEFT_INVERTED);
-    intake = IntakeSubsystem.getInstance();
+    intake = Intake.getInstance();
     // You need to add the subsystems here too.
   }
 
