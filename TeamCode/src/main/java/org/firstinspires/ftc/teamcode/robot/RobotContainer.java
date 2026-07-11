@@ -6,6 +6,8 @@ import org.firstinspires.ftc.teamcode.core.lib.gamepad.SmartGamepad;
 import org.firstinspires.ftc.teamcode.core.lib.gamepad.Trigger;
 import org.firstinspires.ftc.teamcode.core.lib.internal.RobotContainerInternal;
 import org.firstinspires.ftc.teamcode.robot.subsystems.SubsystemExample;
+import org.firstinspires.ftc.teamcode.robot.subsystems.Intake;
+
 
 /**
  * RobotContainer class handle instance configurations. All the subsystems listed in constructor
@@ -18,10 +20,11 @@ public class RobotContainer extends RobotContainerInternal {
 
   private final SubsystemExample subsystemExample;
   private final DrivetrainBuilder drivetrain;
+  private final Intake intake;
 
   public RobotContainer(Gamepad driver, Gamepad operator) {
     super(
-        DrivetrainBuilder.getInstance(), SubsystemExample.getInstance()
+        DrivetrainBuilder.getInstance(), SubsystemExample.getInstance(), Intake.getInstance()
         // Add more subsystems here.
         );
 
@@ -35,6 +38,7 @@ public class RobotContainer extends RobotContainerInternal {
             Constants.DrivetrainBuilderConstants.MOTOR_RIGHT_INVERTED,
             Constants.DrivetrainBuilderConstants.MOTOR_LEFT_INVERTED);
     subsystemExample = SubsystemExample.getInstance();
+    intake = Intake.getInstance();
     // You need to add the subsystems here too.
   }
 
@@ -52,5 +56,10 @@ public class RobotContainer extends RobotContainerInternal {
     operator.leftTrigger()
         .whileTrue(() -> subsystemExample.setManualPower(-operator.getLeftTrigger()))
         .onFalse(() -> subsystemExample.setManualPower(0.0));
+
+    operator.rightTrigger()
+        .whileTrue(() -> intake.setManualPower(operator.getRightTrigger()))
+        .onFalse(() -> intake.setManualPower(0.0));
+
   }
 }

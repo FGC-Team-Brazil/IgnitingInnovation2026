@@ -5,11 +5,13 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @AutoLog
-public class Intake implements Subsystem {
+public class IntakeSubsystem implements Subsystem {
+
+private static IntakeSubsystemAutoLogged instance;
 
 private HardwareMap hardwareMap;
-private Motor first_motorIntake;
-private DCMotor motor;
+private Motor INTAKE_SPEED;
+private DCMotor intakeMotor;
 
 protected Intake() {}
 
@@ -22,9 +24,11 @@ public static synchronized Intake getInstance() {
 
 public void initialize(HardwareMap hardwareMap) {
     this.hardwareMap = hardwareMap;
-    motor = hardwareMap.get(DCMotor.class, Constants.Intake.MOTOR);
-    motor.setDirection(DCMotor.Direction.FORWARD);
-    motor.setMode(DCMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+    intakeMotor = hardwareMap.get(DCMotor.class, Constants.Intake.INTAKE_SPEED);
+    intakeMotor.setDirection(DCMotor.Direction.FORWARD);
+    intakeMotor.setMode(DCMotor.RunMode.RUN_WITHOUT_ENCODER);
+
   }
 
 @Override
@@ -34,16 +38,16 @@ public void initialize(HardwareMap hardwareMap) {
   public void execute() {}
 
 public void runMotorPower(double power) {
-    motor.setPower(power);
+    intakeMotor.setPower(power);
   }
 
 @Override
   public void stop() {
-    motor.setPower(0);
+    intakeMotor.setPower(0);
   }
 
 public void stopMotor() {
-  motor.setPower(0);
+    intakeMotor.setPower(0);
   }
 }
 

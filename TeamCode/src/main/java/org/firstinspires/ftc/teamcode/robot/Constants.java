@@ -34,6 +34,6 @@ public class Constants {
   }
 
   public static class Intake {
-    public static final String MOTOR_NAME = "first_motorIntake";
+    public static final String INTAKE_SPEED = "intake_motor";
   }
 }
