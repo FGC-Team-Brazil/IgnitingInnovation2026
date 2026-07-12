@@ -1,23 +1,24 @@
 package org.firstinspires.ftc.teamcode.robot.subsystems;
 
 import Ori.Coval.Logging.AutoLog;
-import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.teamcode.core.lib.interfaces.Subsystem;
+import org.firstinspires.ftc.teamcode.robot.Constants;
 
 @AutoLog
 public class Intake implements Subsystem {
 
-private static IntakeAutoLogged instance;
-
+private static Intake instance;
 private HardwareMap hardwareMap;
-private Motor INTAKE_SPEED;
-private DCMotor intakeMotor;
+private DcMotor Motor;
 
 protected Intake() {}
 
 public static synchronized Intake getInstance() {
     if (instance == null) {
-      instance = new Intake();
+      instance = new IntakeAutoLogged();
     }
     return instance;
   }
@@ -25,9 +26,9 @@ public static synchronized Intake getInstance() {
 public void initialize(HardwareMap hardwareMap) {
     this.hardwareMap = hardwareMap;
 
-    intakeMotor = hardwareMap.get(DCMotor.class, Constants.Intake.INTAKE_SPEED);
-    intakeMotor.setDirection(DCMotor.Direction.FORWARD);
-    intakeMotor.setMode(DCMotor.RunMode.RUN_WITHOUT_ENCODER);
+    motor = hardwareMap.get(DcMotor.class, Constants.Intake.INTAKE_MOTOR);
+    motor.setDirection(DcMotor.Direction.FORWARD);
+    motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
   }
 
@@ -38,16 +39,16 @@ public void initialize(HardwareMap hardwareMap) {
   public void execute() {}
 
 public void runMotorPower(double power) {
-    intakeMotor.setPower(power);
+    motor.setPower(power);
   }
 
 @Override
   public void stop() {
-    intakeMotor.setPower(0);
+    motor.setPower(0);
   }
 
 public void stopMotor() {
-    intakeMotor.setPower(0);
+    motor.setPower(0);
   }
 }
 

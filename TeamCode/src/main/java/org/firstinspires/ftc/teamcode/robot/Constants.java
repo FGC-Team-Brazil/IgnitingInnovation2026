@@ -17,7 +17,8 @@ public class Constants {
     public static final boolean MOTOR_LEFT_INVERTED = true;
   }
 
-  public static class Intake {
-    public static final String INTAKE_SPEED = "intake_motor";
+  public static class IntakeConstants {
+    public static final String INTAKE_MOTOR = "intake_motor";
+
   }
 }

@@ -3,11 +3,8 @@ package org.firstinspires.ftc.teamcode.robot;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.teamcode.core.lib.builders.DrivetrainBuilder;
 import org.firstinspires.ftc.teamcode.core.lib.gamepad.SmartGamepad;
-import org.firstinspires.ftc.teamcode.core.lib.gamepad.Trigger;
 import org.firstinspires.ftc.teamcode.core.lib.internal.RobotContainerInternal;
-import org.firstinspires.ftc.teamcode.robot.subsystems.SubsystemExample;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Intake;
-
 
 /**
  * RobotContainer class handle instance configurations. All the subsystems listed in constructor
@@ -23,7 +20,8 @@ public class RobotContainer extends RobotContainerInternal {
 
   public RobotContainer(Gamepad driver, Gamepad operator) {
     super(
-        DrivetrainBuilder.getInstance(), Intake.getInstance()
+            DrivetrainBuilder.getInstance(),
+            Intake.getInstance()
         // Add more subsystems here.
         );
 
@@ -51,7 +49,7 @@ public class RobotContainer extends RobotContainerInternal {
         .onFalse(drivetrain::stop);
 
     // Operator controller
-    operator.b().onTrue(() -> intake.runMotorPower(0.8)).onFalse(intake::stopMotor); // Example button biding for intake 
+    operator.b().onTrue(() -> intake.runMotorPower(0.8)).onFalse(intake::stopMotor); // Example button biding for intake
 
   }
 }
