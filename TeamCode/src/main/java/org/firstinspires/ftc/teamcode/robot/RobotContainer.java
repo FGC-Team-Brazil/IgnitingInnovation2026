@@ -3,56 +3,43 @@ package org.firstinspires.ftc.teamcode.robot;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.teamcode.core.lib.builders.DrivetrainBuilder;
 import org.firstinspires.ftc.teamcode.core.lib.gamepad.SmartGamepad;
-import org.firstinspires.ftc.teamcode.core.lib.gamepad.Trigger;
 import org.firstinspires.ftc.teamcode.core.lib.internal.RobotContainerInternal;
-<<<<<<< Updated upstream
-import org.firstinspires.ftc.teamcode.robot.subsystems.SubsystemExample;
-=======
+import org.firstinspires.ftc.teamcode.robot.subsystems.ContinuousServo;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Conveyor;
+import org.firstinspires.ftc.teamcode.robot.subsystems.Door;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Shooter;
->>>>>>> Stashed changes
+import org.firstinspires.ftc.teamcode.robot.subsystems.Storage;
 
 /** Central robot container responsible for subsystem and control management. */
 public class RobotContainer extends RobotContainerInternal {
   private final SmartGamepad driver;
   private final SmartGamepad operator;
 
-  private final SubsystemExample subsystemExample;
   private final DrivetrainBuilder drivetrain;
-<<<<<<< Updated upstream
-=======
   private final Shooter shooter;
   private final Intake intake1;
   private final Conveyor conveyor;
->>>>>>> Stashed changes
+  private final Door door;
+  private final Storage storage;
+
+  private final ContinuousServo slider;
 
   public RobotContainer(Gamepad driverGamepad, Gamepad operatorGamepad) {
     super(
-<<<<<<< Updated upstream
-        DrivetrainBuilder.getInstance(), SubsystemExample.getInstance()
-        // Add more subsystems here.
-        );
-=======
         DrivetrainBuilder.getInstance(),
         Shooter.getInstance(),
         Intake.getInstance(),
-        Conveyor.getInstance());
->>>>>>> Stashed changes
+        Conveyor.getInstance(),
+        Door.getInstance(),
+        Storage.getInstance(),
+        ContinuousServo.getInstance());
 
     this.driver = new SmartGamepad(driverGamepad);
     this.operator = new SmartGamepad(operatorGamepad);
 
     drivetrain =
         DrivetrainBuilder.build(
-<<<<<<< Updated upstream
-            Constants.DrivetrainBuilderConstants.MOTOR_RIGHT,
-            Constants.DrivetrainBuilderConstants.MOTOR_LEFT,
-            Constants.DrivetrainBuilderConstants.MOTOR_RIGHT_INVERTED,
-            Constants.DrivetrainBuilderConstants.MOTOR_LEFT_INVERTED);
-    subsystemExample = SubsystemExample.getInstance();
-    // You need to add the subsystems here too.
-=======
             Constants.DrivetrainBuilderConstants.MOTOR_RIGHT_NAME,
             Constants.DrivetrainBuilderConstants.MOTOR_LEFT_NAME,
             Constants.DrivetrainBuilderConstants.IS_MOTOR_RIGHT_INVERTED,
@@ -60,7 +47,9 @@ public class RobotContainer extends RobotContainerInternal {
     shooter = Shooter.getInstance();
     intake1 = Intake.getInstance();
     conveyor = Conveyor.getInstance();
->>>>>>> Stashed changes
+    door = Door.getInstance();
+    storage = Storage.getInstance();
+    slider = ContinuousServo.getInstance();
   }
 
   @Override
@@ -70,26 +59,15 @@ public class RobotContainer extends RobotContainerInternal {
     driver
         .leftY()
         .or(driver.rightX())
-        .whileTrue(() -> drivetrain.arcadeDrive(-driver.getLeftY(), driver.getRightX()))
+        .whileTrue(() -> drivetrain.arcadeDrive(driver.getLeftY(), driver.getRightX()))
         .onFalse(drivetrain::stop);
 
-<<<<<<< Updated upstream
-    // Operator controller
-    operator.y().onTrue(() -> subsystemExample.setTargetAngle(90));
+    driver.dpadUp().whileTrue(slider::rotateClockwise).onFalse(slider::stop);
+    driver.dpadDown().whileTrue(slider::rotateCounterClockwise).onFalse(slider::stop);
 
-    operator.a().onTrue(() -> subsystemExample.setTargetAngle(0));
-
-    new Trigger(subsystemExample::isLimitLeft).onTrue(subsystemExample::resetEncoders);
-
-    new Trigger(subsystemExample::isLimitRight).onTrue(subsystemExample::resetEncoders);
-
-    operator.start().and(operator.back()).onTrue(subsystemExample::resetEncoders);
-
-    operator.y().negate().and(operator.a().negate()).onTrue(() -> subsystemExample.setPower(0));
-=======
     // Shooter Controls
     operator
-        .rightTrigger()
+        .rightBumper()
         .whileTrue(() -> shooter.runMotorPower(1.0))
         .onFalse(() -> shooter.runMotorPower(0));
 
@@ -112,6 +90,20 @@ public class RobotContainer extends RobotContainerInternal {
         .y()
         .whileTrue(() -> conveyor.setPower(-Constants.Conveyor.INTAKE_SPEED))
         .onFalse(() -> conveyor.setPower(0));
->>>>>>> Stashed changes
+
+    operator.dpadUp().onTrue(() -> door.goToPosition(Constants.Door.Position.OPEN));
+    operator.dpadDown().onTrue(() -> door.goToPosition(Constants.Door.Position.CLOSED));
+
+    operator.dpadLeft().whileTrue(() -> storage.setPower(1.0)).onFalse(storage::stop);
+    operator.dpadRight().whileTrue(() -> storage.setPower(-1.0)).onFalse(storage::stop);
+
+    operator
+        .rightTrigger(0.1)
+        .whileTrue(() -> storage.setPower(operator.getRightTriggerAxis()))
+        .onFalse(storage::stop);
+    operator
+        .leftTrigger(0.1)
+        .whileTrue(() -> storage.setPower(-operator.getLeftTriggerAxis()))
+        .onFalse(storage::stop);
   }
 }
