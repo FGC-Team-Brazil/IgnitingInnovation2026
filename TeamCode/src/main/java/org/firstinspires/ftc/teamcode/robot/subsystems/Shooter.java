@@ -12,8 +12,10 @@ import org.firstinspires.ftc.teamcode.robot.Constants;
  */
 public class Shooter implements Subsystem {
   private static Shooter instance;
-  private DcMotorEx motor1;
-  private DcMotorEx motor2;
+
+  private DcMotorEx motorLeft;
+  private DcMotorEx motorRight;
+
   private PIDController pidController;
   private boolean shooterIsActive = false;
 
@@ -41,8 +43,8 @@ public class Shooter implements Subsystem {
   /** Sets manual power to the mechanism motors. */
   public void runMotorPower(double power) {
     shooterIsActive = false;
-    motor1.setPower(power);
-    motor2.setPower(power);
+    motorLeft.setPower(power);
+    motorRight.setPower(power);
   }
 
   /** Updates the PID controller coefficients from Constants. */
@@ -56,16 +58,19 @@ public class Shooter implements Subsystem {
   /** Initializes hardware and PID controllers */
   @Override
   public void initialize(HardwareMap hardwareMap) {
-    motor1 = hardwareMap.get(DcMotorEx.class, Constants.Shooter.MOTOR_1_NAME);
-    motor1.setDirection(
-        Constants.Shooter.IS_INVERTED1 ? DcMotor.Direction.REVERSE : DcMotor.Direction.FORWARD);
-    motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-    motor2 = hardwareMap.get(DcMotorEx.class, Constants.Shooter.MOTOR_2_NAME);
-    motor2.setDirection(
-        Constants.Shooter.IS_INVERTED2 ? DcMotor.Direction.REVERSE : DcMotor.Direction.FORWARD);
-    motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+    motorLeft = hardwareMap.get(DcMotorEx.class, Constants.Shooter.MOTOR_LEFT_NAME);
+    motorLeft.setDirection(
+        Constants.Shooter.IS_INVERTED_LEFT ? DcMotor.Direction.REVERSE : DcMotor.Direction.FORWARD);
+    motorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    motorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+    motorRight = hardwareMap.get(DcMotorEx.class, Constants.Shooter.MOTOR_RIGHT_NAME);
+    motorRight.setDirection(
+        Constants.Shooter.IS_INVERTED_RIGHT
+            ? DcMotor.Direction.REVERSE
+            : DcMotor.Direction.FORWARD);
+    motorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    motorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
     pidController =
         new PIDController(
@@ -73,17 +78,18 @@ public class Shooter implements Subsystem {
             Constants.Shooter.PID.kI,
             Constants.Shooter.PID.kD,
             Constants.Shooter.PID.kF);
-    pidController.setTolerance(20.0);
+    pidController.setTolerance(Constants.Shooter.TOLERANCE);
   }
 
   /** Main control loop, handled by GamepadManager */
   @Override
   public void execute() {
     if (shooterIsActive) {
-      double currentVelocity = motor1.getVelocity();
+      double currentVelocity = motorLeft.getVelocity();
       double power = pidController.calculate(Constants.Shooter.TARGET_VELOCITY, currentVelocity);
-      motor1.setPower(power);
-      if (motor2 != null) motor2.setPower(power);
+
+      motorLeft.setPower(power);
+      motorRight.setPower(power);
     }
 
     KoalaLog.log("Current Velocity Left", getcurrentVelocityLeft(), true);
@@ -101,15 +107,15 @@ public class Shooter implements Subsystem {
   @Override
   public void stop() {
     shooterIsActive = false;
-    motor1.setPower(0);
-    if (motor2 != null) motor2.setPower(0);
+    motorLeft.setPower(0);
+    motorRight.setPower(0);
   }
 
   public double getcurrentVelocityLeft() {
-    return (motor1.getVelocity() / 28) * 60;
+    return (motorLeft.getVelocity() / 28) * 60;
   }
 
   public double getcurrentVelocityRight() {
-    return (motor2.getVelocity() / 28) * 60;
+    return (motorRight.getVelocity() / 28) * 60;
   }
 }

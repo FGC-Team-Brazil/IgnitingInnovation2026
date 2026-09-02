@@ -6,18 +6,20 @@ import com.acmerobotics.dashboard.config.Config;
 @Config
 public class Constants {
   public static class DrivetrainBuilderConstants {
-    public static final String MOTOR_RIGHT_NAME = "motor_right";
-    public static final String MOTOR_LEFT_NAME = "motor_left";
+    public static final String MOTOR_RIGHT_NAME = "drivetrain_motor_right";
+    public static final String MOTOR_LEFT_NAME = "drivetrain_motor_left";
     public static final boolean IS_MOTOR_RIGHT_INVERTED = false;
     public static final boolean IS_MOTOR_LEFT_INVERTED = true;
   }
 
   @Config
   public static class Shooter {
-    public static final String MOTOR_1_NAME = "motor1";
-    public static final String MOTOR_2_NAME = "motor2";
-    public static boolean IS_INVERTED1 = false;
-    public static boolean IS_INVERTED2 = true;
+    public static final String MOTOR_LEFT_NAME = "shooter_motor_left";
+    public static final String MOTOR_RIGHT_NAME = "shooter_motor_right";
+    public static final boolean IS_INVERTED_LEFT = false;
+    public static final boolean IS_INVERTED_RIGHT = true;
+
+    public static final double TOLERANCE = 20;
 
     /** The target speed the motor will try to achieve, in ticks per second. */
     public static int TARGET_VELOCITY = 4000;
@@ -42,19 +44,19 @@ public class Constants {
   }
 
   public static class Intake {
-    public static final String MOTOR_1_NAME = "motor4";
-    public static final boolean IS_INVERTED1 = true;
+    public static final String MOTOR_NAME = "intake_motor";
+    public static final boolean IS_INVERTED = true;
 
     /** The default speed to turn on the intake (0.0 to 1.0). */
     public static final double INTAKE_SPEED = 1.0;
   }
 
   public static class Conveyor {
-    public static final String MOTOR_1_NAME = "motor3";
-    public static final boolean IS_INVERTED1 = false;
+    public static final String MOTOR_NAME = "conveyor_motor";
+    public static final boolean IS_INVERTED = false;
 
-    /** The default speed to turn on the intake (0.0 to 1.0). */
-    public static final double INTAKE_SPEED = 1.0;
+    /** The default speed to turn on the conveyor (0.0 to 1.0). */
+    public static final double CONVEYOR_SPEED = 1.0;
   }
 
   public static class Door {

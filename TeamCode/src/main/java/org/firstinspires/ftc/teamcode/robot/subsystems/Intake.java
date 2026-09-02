@@ -36,9 +36,9 @@ public class Intake implements Subsystem {
   /** Initializes hardware and PID controllers */
   @Override
   public void initialize(HardwareMap hardwareMap) {
-    motor1 = hardwareMap.get(DcMotor.class, Constants.Intake.MOTOR_1_NAME);
+    motor1 = hardwareMap.get(DcMotor.class, Constants.Intake.MOTOR_NAME);
     motor1.setDirection(
-        Constants.Intake.IS_INVERTED1 ? DcMotor.Direction.REVERSE : DcMotor.Direction.FORWARD);
+        Constants.Intake.IS_INVERTED ? DcMotor.Direction.REVERSE : DcMotor.Direction.FORWARD);
     motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
   }
 

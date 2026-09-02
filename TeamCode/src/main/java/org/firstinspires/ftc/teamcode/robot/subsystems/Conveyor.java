@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.robot.Constants;
  */
 public class Conveyor implements Subsystem {
   private static Conveyor instance;
-  private DcMotor motor1;
+  private DcMotor motor;
 
   /** Private constructor for singleton pattern */
   protected Conveyor() {}
@@ -25,21 +25,16 @@ public class Conveyor implements Subsystem {
 
   /** Sets manual power to the mechanism motors. */
   public void setPower(double power) {
-    motor1.setPower(power);
-  }
-
-  /** Stops the mechanism movement. */
-  public void stopIntake() {
-    setPower(0);
+    motor.setPower(power);
   }
 
   /** Initializes hardware and PID controllers */
   @Override
   public void initialize(HardwareMap hardwareMap) {
-    motor1 = hardwareMap.get(DcMotor.class, Constants.Conveyor.MOTOR_1_NAME);
-    motor1.setDirection(
-        Constants.Conveyor.IS_INVERTED1 ? DcMotor.Direction.REVERSE : DcMotor.Direction.FORWARD);
-    motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    motor = hardwareMap.get(DcMotor.class, Constants.Conveyor.MOTOR_NAME);
+    motor.setDirection(
+        Constants.Conveyor.IS_INVERTED ? DcMotor.Direction.REVERSE : DcMotor.Direction.FORWARD);
+    motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
   }
 
   /** Main control loop, handled by GamepadManager */
@@ -53,6 +48,6 @@ public class Conveyor implements Subsystem {
   /** Ensures safety when OpMode stops */
   @Override
   public void stop() {
-    stopIntake();
+    setPower(0);
   }
 }

@@ -18,7 +18,7 @@ public class RobotContainer extends RobotContainerInternal {
 
   private final DrivetrainBuilder drivetrain;
   private final Shooter shooter;
-  private final Intake intake1;
+  private final Intake intake;
   private final Conveyor conveyor;
   private final Door door;
   private final Storage storage;
@@ -45,7 +45,7 @@ public class RobotContainer extends RobotContainerInternal {
             Constants.DrivetrainBuilderConstants.IS_MOTOR_RIGHT_INVERTED,
             Constants.DrivetrainBuilderConstants.IS_MOTOR_LEFT_INVERTED);
     shooter = Shooter.getInstance();
-    intake1 = Intake.getInstance();
+    intake = Intake.getInstance();
     conveyor = Conveyor.getInstance();
     door = Door.getInstance();
     storage = Storage.getInstance();
@@ -71,24 +71,24 @@ public class RobotContainer extends RobotContainerInternal {
         .whileTrue(() -> shooter.runMotorPower(1.0))
         .onFalse(() -> shooter.runMotorPower(0));
 
-    // Intake1 Controls
+    // Intake Controls
     operator
         .a()
-        .whileTrue(() -> intake1.setPower(Constants.Intake.INTAKE_SPEED))
-        .onFalse(() -> intake1.setPower(0));
+        .whileTrue(() -> intake.setPower(Constants.Intake.INTAKE_SPEED))
+        .onFalse(() -> intake.setPower(0));
     operator
         .b()
-        .whileTrue(() -> intake1.setPower(-Constants.Intake.INTAKE_SPEED))
-        .onFalse(() -> intake1.setPower(0));
+        .whileTrue(() -> intake.setPower(-Constants.Intake.INTAKE_SPEED))
+        .onFalse(() -> intake.setPower(0));
 
     // UnnamedComponent Controls
     operator
         .x()
-        .whileTrue(() -> conveyor.setPower(Constants.Conveyor.INTAKE_SPEED))
+        .whileTrue(() -> conveyor.setPower(Constants.Conveyor.CONVEYOR_SPEED))
         .onFalse(() -> conveyor.setPower(0));
     operator
         .y()
-        .whileTrue(() -> conveyor.setPower(-Constants.Conveyor.INTAKE_SPEED))
+        .whileTrue(() -> conveyor.setPower(-Constants.Conveyor.CONVEYOR_SPEED))
         .onFalse(() -> conveyor.setPower(0));
 
     operator.dpadUp().onTrue(() -> door.goToPosition(Constants.Door.Position.OPEN));
