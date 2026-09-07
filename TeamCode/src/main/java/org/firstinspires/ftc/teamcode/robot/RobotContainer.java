@@ -4,9 +4,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.teamcode.core.lib.builders.DrivetrainBuilder;
 import org.firstinspires.ftc.teamcode.core.lib.gamepad.SmartGamepad;
 import org.firstinspires.ftc.teamcode.core.lib.internal.RobotContainerInternal;
-import org.firstinspires.ftc.teamcode.robot.subsystems.ContinuousServo;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Conveyor;
-import org.firstinspires.ftc.teamcode.robot.subsystems.Door;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Storage;
@@ -20,10 +18,7 @@ public class RobotContainer extends RobotContainerInternal {
   private final Shooter shooter;
   private final Intake intake;
   private final Conveyor conveyor;
-  private final Door door;
   private final Storage storage;
-
-  private final ContinuousServo slider;
 
   public RobotContainer(Gamepad driverGamepad, Gamepad operatorGamepad) {
     super(
@@ -31,9 +26,7 @@ public class RobotContainer extends RobotContainerInternal {
         Shooter.getInstance(),
         Intake.getInstance(),
         Conveyor.getInstance(),
-        Door.getInstance(),
-        Storage.getInstance(),
-        ContinuousServo.getInstance());
+        Storage.getInstance());
 
     this.driver = new SmartGamepad(driverGamepad);
     this.operator = new SmartGamepad(operatorGamepad);
@@ -47,9 +40,7 @@ public class RobotContainer extends RobotContainerInternal {
     shooter = Shooter.getInstance();
     intake = Intake.getInstance();
     conveyor = Conveyor.getInstance();
-    door = Door.getInstance();
     storage = Storage.getInstance();
-    slider = ContinuousServo.getInstance();
   }
 
   @Override
@@ -62,40 +53,36 @@ public class RobotContainer extends RobotContainerInternal {
         .whileTrue(() -> drivetrain.arcadeDrive(driver.getLeftY(), driver.getRightX()))
         .onFalse(drivetrain::stop);
 
-    driver.dpadUp().whileTrue(slider::rotateClockwise).onFalse(slider::stop);
-    driver.dpadDown().whileTrue(slider::rotateCounterClockwise).onFalse(slider::stop);
-
     // Shooter Controls
     operator
         .rightBumper()
+        .whileTrue(() -> shooter.runMotorPower(-1.0))
+        .onFalse(() -> shooter.runMotorPower(0));
+
+    operator
+        .leftBumper()
         .whileTrue(() -> shooter.runMotorPower(1.0))
         .onFalse(() -> shooter.runMotorPower(0));
 
     // Intake Controls
     operator
         .a()
-        .whileTrue(() -> intake.setPower(Constants.Intake.INTAKE_SPEED))
+        .whileTrue(() -> intake.setPower(-Constants.Intake.INTAKE_SPEED))
         .onFalse(() -> intake.setPower(0));
     operator
         .b()
-        .whileTrue(() -> intake.setPower(-Constants.Intake.INTAKE_SPEED))
+        .whileTrue(() -> intake.setPower(Constants.Intake.INTAKE_SPEED))
         .onFalse(() -> intake.setPower(0));
 
     // UnnamedComponent Controls
     operator
         .x()
-        .whileTrue(() -> conveyor.setPower(Constants.Conveyor.CONVEYOR_SPEED))
+        .whileTrue(() -> conveyor.setPower(-Constants.Conveyor.CONVEYOR_SPEED))
         .onFalse(() -> conveyor.setPower(0));
     operator
         .y()
-        .whileTrue(() -> conveyor.setPower(-Constants.Conveyor.CONVEYOR_SPEED))
+        .whileTrue(() -> conveyor.setPower(Constants.Conveyor.CONVEYOR_SPEED))
         .onFalse(() -> conveyor.setPower(0));
-
-    operator.dpadUp().onTrue(() -> door.goToPosition(Constants.Door.Position.OPEN));
-    operator.dpadDown().onTrue(() -> door.goToPosition(Constants.Door.Position.CLOSED));
-
-    operator.dpadLeft().whileTrue(() -> storage.setPower(1.0)).onFalse(storage::stop);
-    operator.dpadRight().whileTrue(() -> storage.setPower(-1.0)).onFalse(storage::stop);
 
     operator
         .rightTrigger(0.1)

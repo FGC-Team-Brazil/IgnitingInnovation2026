@@ -59,37 +59,9 @@ public class Constants {
     public static final double CONVEYOR_SPEED = 1.0;
   }
 
-  public static class Door {
-    public static final String SERVO_1_NAME = "Door_servo_1";
-
-    /** Enum representing preset servo positions. */
-    public enum Position {
-      OPEN("open"),
-      CLOSED("closed"),
-      ;
-      private final String id;
-
-      Position(String id) {
-        this.id = id;
-      }
-
-      public String getId() {
-        return id;
-      }
-    }
-
-    /** Preset position: Open */
-    public static final double OPEN_POSITION_1 = 1.0;
-
-    /** Preset position: Closed */
-    public static final double CLOSED_POSITION_1 = 0.5;
-  }
-
   public static class Storage {
-    public static final String MOTOR_1_NAME = "storage_motor_left";
-    public static final String MOTOR_2_NAME = "storage_motor_right";
-    public static final boolean IS_INVERTED1 = false;
-    public static final boolean IS_INVERTED2 = false;
+    public static final String MOTOR_NAME = "storage_motor";
+    public static final boolean IS_INVERTED = false;
 
     /** Storage position at the lowest point, in encoder ticks. */
     public static final int LOW_POSITION = 100;
@@ -114,22 +86,5 @@ public class Constants {
       /** Feedforward coefficient (kF). */
       public static double kF = 0;
     }
-  }
-
-  public static class ContinuousServo {
-    public static final String SERVO_1_NAME = "servo_1";
-    public static final String SERVO_2_NAME = "servo_2";
-    public static final String SERVO_3_NAME = "servo_3";
-    public static final String SERVO_4_NAME = "servo_4";
-    public static final boolean IS_INVERTED1 = false;
-    public static final boolean IS_INVERTED2 = false;
-    public static final boolean IS_INVERTED3 = true;
-    public static final boolean IS_INVERTED4 = true;
-
-    /** Speed for clockwise rotation (0 to 1). */
-    public static final int CLOCKWISE_SPEED = 1;
-
-    /** Speed for counter-clockwise rotation (-1 to 0). */
-    public static final int COUNTER_CLOCKWISE_SPEED = -1;
   }
 }
