@@ -102,6 +102,13 @@ public class RobotContainer extends RobotContainerInternal {
         .onFalse(storage::stop);
 
     operator
+            .dpadUp()
+            .onTrue(storage::goToHighPosition);
+    operator
+            .dpadDown()
+            .onTrue(storage::goToLowPosition);
+
+    operator
         .rightBumper()
         .onTrue(shooter::spinUp);
 
