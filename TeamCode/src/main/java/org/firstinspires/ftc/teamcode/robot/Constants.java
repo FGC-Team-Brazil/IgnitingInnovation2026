@@ -81,7 +81,7 @@ public class Constants {
        * (Proportional) Reacts to the current error. Increase for a faster response, but beware of
        * oscillation.
        */
-      public static double kP = 0.01;
+      public static double kP = 0.08;
 
       /** (Integral) Eliminates residual error by accumulating it over time. Use small values. */
       public static double kI = 0;
