@@ -114,9 +114,9 @@ public class RobotContainer extends RobotContainerInternal {
 
     operator
         .rightBumper()
-        .and(shooterAlmostReady).whileTrue(() -> conveyor.setPower(0.5));
+        .and(shooterAlmostReady).whileTrue(() -> conveyor.setPower(0.7));
 
     operator
-        .rightBumper().onFalse(shooter::stop);
+        .rightBumper().onFalse(shooter::stop).onFalse(conveyor::stop);
   }
 }
