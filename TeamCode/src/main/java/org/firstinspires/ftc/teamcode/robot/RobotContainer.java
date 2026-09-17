@@ -81,7 +81,8 @@ public class RobotContainer extends RobotContainerInternal {
         .whileTrue(() -> intake.setPower(Constants.Intake.INTAKE_SPEED))
         .onFalse(() -> intake.setPower(0));
 
-    // UnnamedComponent Controls
+    operator.start().onTrue(storage::resetEncoders);
+
     operator
         .x()
         .whileTrue(() -> conveyor.setPower(-Constants.Conveyor.CONVEYOR_SPEED))

@@ -69,10 +69,10 @@ public class Constants {
     public static final boolean IS_INVERTED = false;
 
     /** Storage position at the lowest point, in encoder ticks. */
-    public static final int LOW_POSITION = 100;
+    public static final int LOW_POSITION = 0;
 
     /** Storage position at the highest point, in encoder ticks. */
-    public static final int HIGH_POSITION = 2000;
+    public static final int HIGH_POSITION = 300;
 
     /** PID Controller tuning coefficients. */
     @Config
@@ -81,7 +81,7 @@ public class Constants {
        * (Proportional) Reacts to the current error. Increase for a faster response, but beware of
        * oscillation.
        */
-      public static double kP = 0.05;
+      public static double kP = 0.01;
 
       /** (Integral) Eliminates residual error by accumulating it over time. Use small values. */
       public static double kI = 0;
