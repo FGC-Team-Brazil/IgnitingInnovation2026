@@ -119,6 +119,6 @@ public class Shooter implements Subsystem {
   }
 
   public boolean almostReadyToShoot() {
-    return getcurrentVelocityRight() >= Constants.Shooter.ALMOST_READY_TO_SHOOT_VELOCITY;
+    return Math.abs(getcurrentVelocityRight()) >= Constants.Shooter.ALMOST_READY_TO_SHOOT_VELOCITY;
   }
 }
