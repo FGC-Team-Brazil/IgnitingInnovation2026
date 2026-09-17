@@ -18,8 +18,8 @@ public class Constants {
   public static class Shooter {
     public static final String MOTOR_LEFT_NAME = "shooter_motor_left";
     public static final String MOTOR_RIGHT_NAME = "shooter_motor_right";
-    public static final boolean IS_INVERTED_LEFT = false;
-    public static final boolean IS_INVERTED_RIGHT = true;
+    public static final boolean IS_INVERTED_LEFT = true;
+    public static final boolean IS_INVERTED_RIGHT = false;
 
     public static final double TOLERANCE = 20;
 

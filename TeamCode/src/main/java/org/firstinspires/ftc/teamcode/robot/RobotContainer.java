@@ -63,12 +63,12 @@ public class RobotContainer extends RobotContainerInternal {
     // Shooter Controls
     operator
         .rightBumper()
-        .whileTrue(() -> shooter.runMotorPower(-1.0))
+        .whileTrue(() -> shooter.runMotorPower(1.0))
         .onFalse(() -> shooter.runMotorPower(0));
 
     operator
         .leftBumper()
-        .whileTrue(() -> shooter.runMotorPower(1.0))
+        .whileTrue(() -> shooter.runMotorPower(-1.0))
         .onFalse(() -> shooter.runMotorPower(0));
 
     // Intake Controls
@@ -107,10 +107,6 @@ public class RobotContainer extends RobotContainerInternal {
     operator
             .dpadDown()
             .onTrue(storage::goToLowPosition);
-
-    operator
-        .rightBumper()
-        .onTrue(shooter::spinUp);
 
     operator
         .rightBumper()
