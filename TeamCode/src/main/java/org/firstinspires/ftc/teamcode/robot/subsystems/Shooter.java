@@ -35,11 +35,6 @@ public class Shooter implements Subsystem {
     shooterIsActive = true;
   }
 
-  /** Stops the mechanism movement. */
-  public void stopShooter() {
-    shooterIsActive = false;
-  }
-
   /** Sets manual power to the mechanism motors. */
   public void runMotorPower(double power) {
     shooterIsActive = false;
@@ -117,5 +112,13 @@ public class Shooter implements Subsystem {
 
   public double getcurrentVelocityRight() {
     return (motorRight.getVelocity() / 28) * 60;
+  }
+
+  public boolean readyToShoot() {
+    return getcurrentVelocityLeft() >= Constants.Shooter.READY_TO_SHOOT_VELOCITY;
+  }
+
+  public boolean almostReadyToShoot() {
+    return getcurrentVelocityLeft() >= Constants.Shooter.ALMOST_READY_TO_SHOOT_VELOCITY;
   }
 }

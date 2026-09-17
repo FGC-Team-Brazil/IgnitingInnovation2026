@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.robot;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.teamcode.core.lib.builders.DrivetrainBuilder;
 import org.firstinspires.ftc.teamcode.core.lib.gamepad.SmartGamepad;
+import org.firstinspires.ftc.teamcode.core.lib.gamepad.Trigger;
 import org.firstinspires.ftc.teamcode.core.lib.internal.RobotContainerInternal;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Conveyor;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Intake;
@@ -19,6 +20,9 @@ public class RobotContainer extends RobotContainerInternal {
   private final Intake intake;
   private final Conveyor conveyor;
   private final Storage storage;
+
+  private Trigger shooterReady;
+  private Trigger shooterAlmostReady;
 
   public RobotContainer(Gamepad driverGamepad, Gamepad operatorGamepad) {
     super(
@@ -41,6 +45,9 @@ public class RobotContainer extends RobotContainerInternal {
     intake = Intake.getInstance();
     conveyor = Conveyor.getInstance();
     storage = Storage.getInstance();
+
+    shooterReady = new Trigger(shooter::readyToShoot);
+    shooterAlmostReady = new Trigger(shooter::almostReadyToShoot);
   }
 
   @Override
@@ -92,5 +99,20 @@ public class RobotContainer extends RobotContainerInternal {
         .leftTrigger(0.1)
         .whileTrue(() -> storage.setPower(-operator.getLeftTriggerAxis()))
         .onFalse(storage::stop);
+
+    operator
+        .rightBumper()
+        .onTrue(shooter::spinUp);
+
+    operator
+        .rightBumper()
+        .and(shooterReady).whileTrue(() -> conveyor.setPower(1));
+
+    operator
+        .rightBumper()
+        .and(shooterAlmostReady).whileTrue(() -> conveyor.setPower(0.5));
+
+    operator
+        .rightBumper().onFalse(shooter::stop);
   }
 }
