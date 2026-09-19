@@ -57,7 +57,7 @@ public class RobotContainer extends RobotContainerInternal {
     driver
         .leftY()
         .or(driver.rightX())
-        .whileTrue(() -> drivetrain.arcadeDrive(driver.getLeftY(), driver.getRightX()))
+        .whileTrue(() -> drivetrain.arcadeDrive(-driver.getRightX(), -driver.getLeftY())) // HACK: for some reason, it's inverted
         .onFalse(drivetrain::stop);
 
     // Shooter Controls
