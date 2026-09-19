@@ -1,15 +1,13 @@
 package org.firstinspires.ftc.teamcode.robot.subsystems;
 
+import Ori.Coval.Logging.Logger.KoalaLog;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.hardware.*;
-
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.core.lib.interfaces.Subsystem;
 import org.firstinspires.ftc.teamcode.core.lib.pid.PIDController;
 import org.firstinspires.ftc.teamcode.robot.Constants;
-
-import Ori.Coval.Logging.Logger.KoalaLog;
 
 /** Subsystem for controlling a vertical Storage mechanism with PID control. */
 public class Storage implements Subsystem {
@@ -108,17 +106,17 @@ public class Storage implements Subsystem {
   public void initialize(HardwareMap hardwareMap) {
     motor = hardwareMap.get(DcMotorEx.class, Constants.Storage.MOTOR_NAME);
     motor.setDirection(
-            Constants.Storage.IS_INVERTED ? DcMotor.Direction.REVERSE : DcMotor.Direction.FORWARD);
+        Constants.Storage.IS_INVERTED ? DcMotor.Direction.REVERSE : DcMotor.Direction.FORWARD);
     motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     pidController =
-            new PIDController(
-                    Constants.Storage.PID.kP,
-                    Constants.Storage.PID.kI,
-                    Constants.Storage.PID.kD,
-                    Constants.Storage.PID.kF);
+        new PIDController(
+            Constants.Storage.PID.kP,
+            Constants.Storage.PID.kI,
+            Constants.Storage.PID.kD,
+            Constants.Storage.PID.kF);
     pidController.setTolerance(20.0);
   }
 
