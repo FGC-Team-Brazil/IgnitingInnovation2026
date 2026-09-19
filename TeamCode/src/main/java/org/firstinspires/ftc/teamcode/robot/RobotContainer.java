@@ -75,11 +75,11 @@ public class RobotContainer extends RobotContainerInternal {
     operator
         .a()
         .whileTrue(() -> intake.setPower(-Constants.Intake.INTAKE_SPEED * 0.7))
-        .onFalse(() -> intake.setPower(-Constants.Intake.INTAKE_SPEED * 0.4));
+        .whileFalse(() -> intake.setPower(-Constants.Intake.INTAKE_SPEED * 0.4));
     operator
         .b()
         .whileTrue(() -> intake.setPower(Constants.Intake.INTAKE_SPEED * 0.7))
-        .onFalse(() -> intake.setPower(-Constants.Intake.INTAKE_SPEED * 0.4));
+        .whileFalse(() -> intake.setPower(-Constants.Intake.INTAKE_SPEED * 0.4));
 
     operator.start().onTrue(storage::resetEncoders);
 

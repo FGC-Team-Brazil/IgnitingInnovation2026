@@ -24,9 +24,10 @@ public class Constants {
     public static final double TOLERANCE = 20;
 
     /** The target speed the motor will try to achieve, in ticks per second. */
-    public static int TARGET_VELOCITY = 3600;
-    public static int READY_TO_SHOOT_VELOCITY = 2400;
-    public static int ALMOST_READY_TO_SHOOT_VELOCITY = 1920;
+    public static int TARGET_VELOCITY = 4500;
+
+    public static int READY_TO_SHOOT_VELOCITY = 3000;
+    public static int ALMOST_READY_TO_SHOOT_VELOCITY = 2400;
 
     /** PID Controller tuning coefficients. */
     public static class PID {
@@ -57,7 +58,7 @@ public class Constants {
 
   public static class Conveyor {
     public static final String MOTOR_NAME = "conveyor_motor";
-    public static final boolean IS_INVERTED = false;
+    public static final boolean IS_INVERTED = true;
 
     /** The default speed to turn on the conveyor (0.0 to 1.0). */
     public static final double CONVEYOR_SPEED = 0.5;
