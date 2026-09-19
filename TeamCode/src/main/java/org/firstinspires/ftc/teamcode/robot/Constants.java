@@ -61,7 +61,7 @@ public class Constants {
     public static final boolean IS_INVERTED = true;
 
     /** The default speed to turn on the conveyor (0.0 to 1.0). */
-    public static final double CONVEYOR_SPEED = 0.5;
+    public static final double CONVEYOR_SPEED = 0.8;
   }
 
   public static class Storage {
