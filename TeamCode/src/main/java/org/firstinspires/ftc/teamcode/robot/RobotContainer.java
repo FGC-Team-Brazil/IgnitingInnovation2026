@@ -57,29 +57,56 @@ public class RobotContainer extends RobotContainerInternal {
     driver
         .leftY()
         .or(driver.rightX())
-        .whileTrue(() -> drivetrain.arcadeDrive(-driver.getRightX(), -driver.getLeftY())) // HACK: for some reason, it's inverted
+        .whileTrue(
+            () ->
+                drivetrain.arcadeDrive(
+                    -driver.getRightX(),
+                    -driver.getLeftY())) // HACK: for some reason, it's inverted
         .onFalse(drivetrain::stop);
 
     // Shooter Controls
+    operator.rightTrigger(0.1).whileTrue(shooter::spinUp).onFalse(shooter::stop);
+
     operator
         .rightBumper()
-        .whileTrue(() -> shooter.runMotorPower(1.0))
-        .onFalse(() -> shooter.runMotorPower(0));
+        .whileTrue(() -> shooter.setCanShoot(true))
+        .onFalse(() -> shooter.setCanShoot(false));
 
     operator
-        .leftBumper()
-        .whileTrue(() -> shooter.runMotorPower(-1.0))
-        .onFalse(() -> shooter.runMotorPower(0));
+        .rightBumper()
+        .and(shooterReady)
+        .whileTrue(() -> conveyor.setPower(1))
+        .onFalse(conveyor::stop);
+    operator.rightBumper().onFalse(shooter::stop).onFalse(conveyor::stop);
+
+    //    operator
+    //        .leftBumper()
+    //        .whileTrue(() -> shooter.runMotorPower(-1.0))
+    //        .onFalse(() -> shooter.runMotorPower(0));
 
     // Intake Controls
+
+    driver.leftTrigger(0.1).onTrue(intake::toggleIntake);
+    operator.leftTrigger(0.1).onTrue(intake::toggleIntake);
+
     operator
         .a()
-        .whileTrue(() -> intake.setPower(-Constants.Intake.INTAKE_SPEED * 0.7))
-        .whileFalse(() -> intake.setPower(-Constants.Intake.INTAKE_SPEED * 0.4));
+        .and(operator.b().negate())
+        .whileTrue(() -> intake.setIntakePower(-Constants.Intake.INTAKE_SPEED))
+        //        .and(operator.a().negate())
+        .onFalse(
+            () ->
+                intake.setIntakePower(
+                    intake.isIntakeToggle() ? -Constants.Intake.INTAKE_SPEED * 0.4 : 0));
     operator
         .b()
-        .whileTrue(() -> intake.setPower(Constants.Intake.INTAKE_SPEED * 0.7))
-        .whileFalse(() -> intake.setPower(-Constants.Intake.INTAKE_SPEED * 0.4));
+        .and(operator.a().negate())
+        .whileTrue(() -> intake.setIntakePower(Constants.Intake.INTAKE_SPEED))
+        //        .and(operator.a().negate())
+        .onFalse(
+            () ->
+                intake.setIntakePower(
+                    intake.isIntakeToggle() ? -Constants.Intake.INTAKE_SPEED * 0.4 : 0));
 
     operator.start().onTrue(storage::resetEncoders);
 
@@ -92,22 +119,17 @@ public class RobotContainer extends RobotContainerInternal {
         .whileTrue(() -> conveyor.setPower(Constants.Conveyor.CONVEYOR_SPEED))
         .onFalse(() -> conveyor.setPower(0));
 
+    operator.dpadUp().whileTrue(() -> storage.setPower(0.8)).onFalse(storage::stop);
+    operator.dpadDown().whileTrue(() -> storage.setPower(-0.8)).onFalse(storage::stop);
+
     operator
-        .rightTrigger(0.1)
-        .whileTrue(() -> storage.setPower(operator.getRightTriggerAxis()))
-        .onFalse(storage::stop);
-    operator
-        .leftTrigger(0.1)
-        .whileTrue(() -> storage.setPower(-operator.getLeftTriggerAxis()))
+        .rightY(0.1)
+        .whileTrue(() -> storage.setPower(-operator.getRightY()))
         .onFalse(storage::stop);
 
-    operator.dpadUp().onTrue(storage::goToHighPosition);
-    operator.dpadDown().onTrue(storage::goToLowPosition);
+    //    operator.dpadUp().onTrue(storage::goToHighPosition);
+    //    operator.dpadDown().onTrue(storage::goToLowPosition);
 
-    operator.rightBumper().and(shooterReady).whileTrue(() -> conveyor.setPower(1));
-
-    operator.rightBumper().and(shooterAlmostReady).whileTrue(() -> conveyor.setPower(0.7));
-
-    operator.rightBumper().onFalse(shooter::stop).onFalse(conveyor::stop);
+    //    operator.rightBumper().and(shooterAlmostReady).whileTrue(() -> conveyor.setPower(0.7));
   }
 }

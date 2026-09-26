@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.robot.subsystems;
 
+import Ori.Coval.Logging.Logger.KoalaLog;
 import com.qualcomm.robotcore.hardware.*;
 import org.firstinspires.ftc.teamcode.core.lib.interfaces.Subsystem;
 import org.firstinspires.ftc.teamcode.robot.Constants;
@@ -11,6 +12,9 @@ import org.firstinspires.ftc.teamcode.robot.Constants;
 public class Intake implements Subsystem {
   private static Intake instance;
   private DcMotor motor1;
+  private boolean intakeToggle = false;
+
+  private double intakePower = 0;
 
   /** Private constructor for singleton pattern */
   protected Intake() {}
@@ -28,9 +32,13 @@ public class Intake implements Subsystem {
     motor1.setPower(power);
   }
 
+  public void setIntakePower(double intakePower) {
+    this.intakePower = intakePower;
+  }
+
   /** Stops the mechanism movement. */
   public void stopIntake() {
-    setPower(0);
+    setIntakePower(0);
   }
 
   /** Initializes hardware and PID controllers */
@@ -44,7 +52,12 @@ public class Intake implements Subsystem {
 
   /** Main control loop, handled by GamepadManager */
   @Override
-  public void execute() {}
+  public void execute() {
+    KoalaLog.log("intakeToggle", intakeToggle, true);
+    KoalaLog.log("intake power", intakePower, true);
+
+    if (intakeToggle) setPower(intakePower);
+  }
 
   /** Reset state when OpMode starts */
   @Override
@@ -54,5 +67,13 @@ public class Intake implements Subsystem {
   @Override
   public void stop() {
     stopIntake();
+  }
+
+  public void toggleIntake() {
+    intakeToggle = !intakeToggle;
+  }
+
+  public boolean isIntakeToggle() {
+    return intakeToggle;
   }
 }

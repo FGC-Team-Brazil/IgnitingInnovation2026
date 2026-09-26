@@ -24,10 +24,10 @@ public class Constants {
     public static final double TOLERANCE = 20;
 
     /** The target speed the motor will try to achieve, in ticks per second. */
-    public static int TARGET_VELOCITY = 4500;
+    public static int TARGET_VELOCITY = 4000;
 
-    public static int READY_TO_SHOOT_VELOCITY = 3000;
-    public static int ALMOST_READY_TO_SHOOT_VELOCITY = 2400;
+    public static int READY_TO_SHOOT_VELOCITY = 3500;
+    public static int ALMOST_READY_TO_SHOOT_VELOCITY = 3000;
 
     /** PID Controller tuning coefficients. */
     public static class PID {

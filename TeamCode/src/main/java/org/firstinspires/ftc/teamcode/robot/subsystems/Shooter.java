@@ -20,6 +20,7 @@ public class Shooter implements Subsystem {
 
   private PIDController pidController;
   private boolean shooterIsActive = false;
+  private boolean canShoot = false;
 
   /** Private constructor for singleton pattern */
   protected Shooter() {}
@@ -137,10 +138,15 @@ public class Shooter implements Subsystem {
   }
 
   public boolean readyToShoot() {
-    return Math.abs(getCurrentVelocityRight()) >= Constants.Shooter.READY_TO_SHOOT_VELOCITY;
+    return Math.abs(getCurrentVelocityRight()) >= Constants.Shooter.READY_TO_SHOOT_VELOCITY
+        && canShoot;
   }
 
   public boolean almostReadyToShoot() {
     return Math.abs(getCurrentVelocityRight()) >= Constants.Shooter.ALMOST_READY_TO_SHOOT_VELOCITY;
+  }
+
+  public void setCanShoot(boolean value) {
+    canShoot = value;
   }
 }
