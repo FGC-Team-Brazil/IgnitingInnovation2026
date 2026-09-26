@@ -22,7 +22,7 @@ public class RobotContainer extends RobotContainerInternal {
   private final Storage storage;
 
   private Trigger shooterReady;
-  private Trigger shooterAlmostReady;
+  private Trigger intakeToggle;
 
   public RobotContainer(Gamepad driverGamepad, Gamepad operatorGamepad) {
     super(
@@ -47,7 +47,7 @@ public class RobotContainer extends RobotContainerInternal {
     storage = Storage.getInstance();
 
     shooterReady = new Trigger(shooter::readyToShoot);
-    shooterAlmostReady = new Trigger(shooter::almostReadyToShoot);
+    intakeToggle = new Trigger(intake::isIntakeToggle);
   }
 
   @Override
@@ -86,8 +86,11 @@ public class RobotContainer extends RobotContainerInternal {
 
     // Intake Controls
 
-    driver.leftTrigger(0.1).onTrue(intake::toggleIntake);
     operator.leftTrigger(0.1).onTrue(intake::toggleIntake);
+
+    intakeToggle
+        .onTrue(() -> intake.setIntakePower(-Constants.Intake.INTAKE_SPEED))
+        .onFalse(() -> intake.setIntakePower(-Constants.Intake.INTAKE_SPEED));
 
     operator
         .a()
@@ -127,6 +130,24 @@ public class RobotContainer extends RobotContainerInternal {
         .whileTrue(() -> storage.setPower(-operator.getRightY()))
         .onFalse(storage::stop);
 
+    // rollback buttons
+
+    operator
+        .leftStick()
+        .and(operator.rightStick())
+        .whileTrue(
+            () -> {
+              shooter.runMotorPower(-0.7);
+              conveyor.setPower(-1);
+              intake.setIntakePower(1);
+            })
+        .onFalse(
+            () -> {
+              shooter.stop();
+              conveyor.setPower(0);
+              intake.setIntakePower(0);
+              if (intake.isIntakeToggle()) intake.toggleIntake();
+            });
     //    operator.dpadUp().onTrue(storage::goToHighPosition);
     //    operator.dpadDown().onTrue(storage::goToLowPosition);
 

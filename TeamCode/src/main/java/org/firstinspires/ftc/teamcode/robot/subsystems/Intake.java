@@ -56,7 +56,7 @@ public class Intake implements Subsystem {
     KoalaLog.log("intakeToggle", intakeToggle, true);
     KoalaLog.log("intake power", intakePower, true);
 
-    if (intakeToggle) setPower(intakePower);
+    setPower(intakePower);
   }
 
   /** Reset state when OpMode starts */

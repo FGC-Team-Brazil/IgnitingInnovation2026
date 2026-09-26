@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.robot.subsystems;
 
 import Ori.Coval.Logging.Logger.KoalaLog;
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.hardware.*;
 import org.firstinspires.ftc.teamcode.core.lib.interfaces.Subsystem;
 import org.firstinspires.ftc.teamcode.core.lib.pid.PIDController;
@@ -98,15 +96,13 @@ public class Shooter implements Subsystem {
     }
 
     if (Constants.tuningMode) {
-      TelemetryPacket packet = new TelemetryPacket();
-      packet.put("Shooter Target Velocity", Constants.Shooter.TARGET_VELOCITY);
-      packet.put("Shooter Current Velocity Left", currentVelocityLeft);
-      packet.put("Shooter Current Velocity Right", currentVelocityRight);
-      packet.put("Shooter RPM Left", getCurrentVelocityLeft());
-      packet.put("Shooter RPM Right", getCurrentVelocityRight());
-      packet.put("Shooter Error", Constants.Shooter.TARGET_VELOCITY - currentVelocityLeft);
-      packet.put("Shooter Power", motorLeft.getPower());
-      FtcDashboard.getInstance().sendTelemetryPacket(packet);
+      KoalaLog.log("Shooter Target Velocity", Constants.Shooter.TARGET_VELOCITY, true);
+      KoalaLog.log("Shooter Current Velocity Left", currentVelocityLeft, true);
+      KoalaLog.log("Shooter Current Velocity Right", currentVelocityRight, true);
+      KoalaLog.log("Shooter RPM Left", getCurrentVelocityLeft(), true);
+      KoalaLog.log("Shooter RPM Right", getCurrentVelocityRight(), true);
+      KoalaLog.log("Shooter Error", Constants.Shooter.TARGET_VELOCITY - currentVelocityLeft, true);
+      KoalaLog.log("Shooter Power", motorLeft.getPower(), true);
     }
 
     // Logging no KoalaLog
